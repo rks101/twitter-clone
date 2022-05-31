@@ -18,22 +18,26 @@ export default function NewTweet() {
         }
 
         //alert(content)
+        // set API route with path and some settings for req body 
         fetch('/api/tweet', {
-            body: JSON.stringify({
+            method: 'POST',
+
+            headers: {
+                'Content-Type': 'application/json',
+              },
+
+              body: JSON.stringify({
               content,
             }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'POST',
         })
 
       }}
     >
       <div className='flex'>
         <div className='flex-1 px-1 pt-2 mt-2 mr-1 ml-1'>
+            <p>Type some text and press Tweet</p>
           <textarea
-            className='border p-4 w-full text-lg font-medium bg-transparent outline-none color-primary '
+            className='border p-4 w-full text-lg font-medium bg-transparent dark:bg-slate-800 outline-none color-primary bg-gray-200'
             rows={2}
             cols={50}
             placeholder="What's happening?"
@@ -42,10 +46,11 @@ export default function NewTweet() {
           />
         </div>
       </div>
+      {content}
 
       <div className='flex'>
         <div className='flex-1 mb-5'>
-          <button className='border float-right px-8 py-2 mt-0 mr-2 font-bold rounded-full'>
+          <button className='border float-right px-8 py-2 mt-0 mr-2 font-bold rounded-full bg-blue-400'>
             Tweet
           </button>
         </div>
