@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 
 export default function NewTweet() {
   const [content, setContent] = useState('')
   const { data: session } = useSession()
+  const router = useRouter()
 
   if (!session || !session.user) return null
 
@@ -19,7 +21,7 @@ export default function NewTweet() {
 
         //alert(content)
         // set API route with path and some settings for req body 
-        fetch('/api/tweet', {
+        await fetch('/api/tweet', {
             method: 'POST',
 
             headers: {
@@ -30,6 +32,8 @@ export default function NewTweet() {
               content,
             }),
         })
+
+        router.reload(window.location.pathname)
 
       }}
     >
@@ -46,7 +50,6 @@ export default function NewTweet() {
           />
         </div>
       </div>
-      {content}
 
       <div className='flex'>
         <div className='flex-1 mb-5'>
