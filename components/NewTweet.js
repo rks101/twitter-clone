@@ -58,6 +58,7 @@ export default function NewTweet() {
           </button>
         </div>
       </div>
+
     </form>
   )
 }
