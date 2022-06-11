@@ -19,6 +19,12 @@ export default function Home({tweets}) {
     router.push('/')
   }
 
+  // if name is not setup, load setup page
+  if (session && !session.user.name) {
+    router.push('/setup')
+  }
+
+
   //return <NewTweet />
   return (
     <>
