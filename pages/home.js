@@ -1,16 +1,21 @@
+import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import NewTweet from 'components/NewTweet'
 import Tweets from 'components/Tweets'
 import prisma from 'lib/prisma'
 import { getTweets } from 'lib/data'
+import LoadMore, { LoaderMore } from 'components/LoadMore'
 
+export default function Home({initialTweets}) {
 
-export default function Home({tweets}) {
+  //const {tweets, setTweets} = useState(initialTweets) // this made tweets disappear during LoadMore
+  const [tweets, setTweets] = useState(initialTweets)
+
+  const router = useRouter()
   const { data: session, status } = useSession()
   const loading = status === 'loading'
-  const router = useRouter()
-
+  
   if (loading) {
     return null
   }
@@ -28,19 +33,20 @@ export default function Home({tweets}) {
   //return <NewTweet />
   return (
     <>
-    <NewTweet />
+    <NewTweet tweets={tweets} setTweets={setTweets}/>
     <Tweets tweets={tweets}/>
+    <LoadMore tweets={tweets} setTweets={setTweets}/>
     </>
   )
 }
 
 export async function getServerSideProps() {
-	let tweets = await getTweets(prisma)
+	let tweets = await getTweets(prisma, 3)
   tweets = JSON.parse(JSON.stringify(tweets))
 
   return {
     props: {
-      tweets,
+      initialTweets : tweets,
     },
   }
 }

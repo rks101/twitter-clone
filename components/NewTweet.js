@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 
-export default function NewTweet() {
+export default function NewTweet(tweets, setTweets) {
   const [content, setContent] = useState('')
   const { data: session } = useSession()
   const router = useRouter()
@@ -21,7 +21,7 @@ export default function NewTweet() {
 
         //alert(content)
         // set API route with path and some settings for req body 
-        await fetch('/api/tweet', {
+        const res = await fetch('/api/tweet', {
             method: 'POST',
 
             headers: {
@@ -33,7 +33,12 @@ export default function NewTweet() {
             }),
         })
 
-        router.reload(window.location.pathname)
+        const tweet = await res.json()
+
+        setTweets([tweet, ...tweets])
+        setContent('')
+
+        //router.reload(window.location.pathname)
 
       }}
     >
@@ -46,6 +51,7 @@ export default function NewTweet() {
             cols={50}
             placeholder="What's happening?"
             name='content'
+            value={content}
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
