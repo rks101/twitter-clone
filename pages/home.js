@@ -5,7 +5,7 @@ import NewTweet from 'components/NewTweet'
 import Tweets from 'components/Tweets'
 import prisma from 'lib/prisma'
 import { getTweets } from 'lib/data'
-import LoadMore, { LoaderMore } from 'components/LoadMore'
+import LoadMore from 'components/LoadMore'
 
 export default function Home({initialTweets}) {
 
@@ -41,7 +41,7 @@ export default function Home({initialTweets}) {
 }
 
 export async function getServerSideProps() {
-	let tweets = await getTweets(prisma, 3)
+	let tweets = await getTweets(prisma, 2)
   tweets = JSON.parse(JSON.stringify(tweets))
 
   return {
